@@ -41,7 +41,7 @@ public class InputHandler : MonoBehaviour
 
         if (context.phase == InputActionPhase.Started && rayHit.collider != null)
         {
-            Vector2 hitPoint = new Vector2(Mathf.Round(rayHit.point.x), Mathf.Round(rayHit.point.y));
+            Vector2 hitPoint = new(Mathf.Round(rayHit.point.x), Mathf.Round(rayHit.point.y));
             hitPoint.y = Mathf.Abs(hitPoint.y);
             spawnSwitches.WhichSwitchClicked(hitPoint);
             movesCount.UpdateMoves();
@@ -62,9 +62,5 @@ public class InputHandler : MonoBehaviour
         {
             spawnSwitches.GameCheat();
         }
-    }
-    public void QuitGame(InputAction.CallbackContext context)
-    {
-        Application.Quit();
     }
 }
