@@ -17,7 +17,7 @@ public class Switch : MonoBehaviour
     void Start()
     {
         isOn = false;
-        if (Random.Range(0, 10) > 1f)
+        if (Random.Range(0, 5) < 2)
         {
             isOn = true;
         }
@@ -66,5 +66,4 @@ public class Switch : MonoBehaviour
     {
         get { return isOn; }
     }
-
 }

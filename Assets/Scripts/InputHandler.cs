@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
@@ -14,6 +15,8 @@ public class InputHandler : MonoBehaviour
     [SerializeField]
     LayerMask layerMask;
 
+    [SerializeField]
+    TimeCount timeCount;
     [SerializeField]
     MovesCount movesCount;
     [SerializeField]
@@ -45,16 +48,18 @@ public class InputHandler : MonoBehaviour
             hitPoint.y = Mathf.Abs(hitPoint.y);
             spawnSwitches.WhichSwitchClicked(hitPoint);
             movesCount.UpdateMoves();
+            timeCount.StartCounting();
         }
     }
-    public void GameReset(InputAction.CallbackContext context)
+    public void GameReset()
     {
-        if (context.phase == InputActionPhase.Started)
-        {
-            movesCount.ResetMoves();
-            victoryCount.GetSetVictoryReset = false;
-            spawnSwitches.ToggleAllSwitchesToOff();
-        }
+        victoryCount.GetSetVictoryReset = false;
+        spawnSwitches.ToggleAllSwitchesToOff();
+        spawnSwitches.SwitchesRandomOn();
+        movesCount.ResetMoves();
+        timeCount.ResetCount();
+        spawnSwitches.DestroyAllSwitches();
+        spawnSwitches.Spawn();
     }
     public void CheatGame(InputAction.CallbackContext context)
     {

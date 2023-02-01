@@ -7,9 +7,14 @@ public class MovesCount : MonoBehaviour
 {
     int count;
 
-    [SerializeField]
     TextMeshProUGUI moves;
 
+    [SerializeField]
+    TextMeshProUGUI prevMoves;
+    private void Start()
+    {
+        moves = GetComponent<TextMeshProUGUI>();
+    }
     void Update()
     {
         moves.text = "Moves: " + count;    
@@ -20,6 +25,7 @@ public class MovesCount : MonoBehaviour
     }
     public void ResetMoves()
     {
+        prevMoves.text = "Moves: " + count;
         count = 0;
     }
 }

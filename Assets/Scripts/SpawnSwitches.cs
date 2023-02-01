@@ -6,20 +6,27 @@ using System.Collections;
 public class SpawnSwitches : MonoBehaviour
 {
     [SerializeField]
-    GameObject[,] switches = new GameObject[5, 5];
+    GameObject[,] switches;
 
     [SerializeField]
     GameObject switchObject;
 
     [SerializeField]
+    TimeCount timeCount;
+    [SerializeField]
     VictoryCount victoryCount;
+
+    [SerializeField]
+    GameObject resetNeededText;
+
+    [SerializeField]
+    GridSizeButton gridSize;
 
     AudioPlayer player;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<AudioPlayer>();
-        Camera.main.transform.position = new Vector3(switches.GetLength(0) / 2, switches.GetLength(1) / -2, -10);
         Spawn();
     }
 
@@ -80,9 +87,11 @@ public class SpawnSwitches : MonoBehaviour
 
         if (amountOn == switches.GetLength(0) * switches.GetLength(1))
         {
+            timeCount.StopCounting();
             player.PlayAudio();
             victoryCount.UpdateVictories();
             VictoryCelebration();
+            resetNeededText.SetActive(true);
         }
 
     }
@@ -121,14 +130,45 @@ public class SpawnSwitches : MonoBehaviour
             }
         }
     }
-    void Spawn()
+    public void Spawn()
     {
+        switches = new GameObject[gridSize.getSize, gridSize.getSize];
+        Camera.main.transform.position = new Vector3(switches.GetLength(0) / 2, switches.GetLength(1) / -2, -10);
+
         for (int y = 0; y < switches.GetLength(0); y++)
         {
             for (int x = 0; x < switches.GetLength(1); x++)
             {
                 switches[x, y] = Instantiate(switchObject, new Vector3(x, -y), Quaternion.identity);
                 switches[x, y].GetComponentInChildren<TMP_Text>().text = x + ", " + y;
+            }
+        }
+    }
+    public void DestroyAllSwitches()
+    {
+        for (int y = 0; y < switches.GetLength(0); y++)
+        {
+            for (int x = 0; x < switches.GetLength(1); x++)
+            {
+                Destroy(switches[x, y]);
+            }
+        }
+    }
+    public void SwitchesRandomOn()
+    {
+        ToggleAllSwitchesToOff();
+        for (int x = 0; x < switches.GetLength(0); x++)
+        {
+            for (int y = 0; y < switches.GetLength(1); y++)
+            {
+                if (Random.Range(0, 5) < 2)
+                {
+                    switches[x, y].GetComponent<Switch>().FlipSwitch(true);
+                }
+                else
+                {
+                    switches[x, y].GetComponent<Switch>().FlipSwitch(false);
+                }
             }
         }
     }

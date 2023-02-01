@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Reset",
-                    "type": "Button",
-                    "id": "e0b96bd6-eb7e-4ab0-84a8-0761d8c0c31e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Cheat",
                     "type": "Button",
                     "id": "eff933e1-668d-4851-9b57-94bfccf223f9",
@@ -51,17 +42,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "MB",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "394ad5e9-ae2f-4ac6-893c-e0d5a1cf65fb",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reset",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

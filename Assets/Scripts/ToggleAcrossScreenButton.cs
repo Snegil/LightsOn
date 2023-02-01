@@ -9,7 +9,7 @@ public class ToggleAcrossScreenButton : MonoBehaviour
     GameObject acrossScreenButton;
     void Start()
     {
-        
+        acrossScreenButton.SetActive(false);
     }
     public void ToggleASB()
     {

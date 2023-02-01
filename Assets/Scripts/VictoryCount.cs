@@ -13,7 +13,7 @@ public class VictoryCount : MonoBehaviour
 
     void Update()
     {
-        victories.text = "Victories: " + count;
+        victories.text = "Medals: " + count;
     }
     public void UpdateVictories()
     {
