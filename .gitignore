@@ -74,3 +74,8 @@ crashlytics-build.properties
 !/[Pp]ackages/manifest.json
 
 
+.vscode/settings.json
+Assets/TextMesh Pro.meta
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+Assets/TextMesh Pro.meta
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
