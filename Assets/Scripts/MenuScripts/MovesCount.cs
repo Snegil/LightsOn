@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MovesCount : MonoBehaviour
 {
+    [SerializeField]
+    PreviousRun previousRun;
+
     int count;
 
     TextMeshProUGUI moves;
@@ -25,7 +28,12 @@ public class MovesCount : MonoBehaviour
     }
     public void ResetMoves()
     {
-        prevMoves.text = "Moves: " + count;
+        AssignPrevMoves(count);
+        previousRun.AssignMovesCount(count);
         count = 0;
+    }
+    public void AssignPrevMoves(int count)
+    {
+        prevMoves.text = "Moves: " + count;
     }
 }

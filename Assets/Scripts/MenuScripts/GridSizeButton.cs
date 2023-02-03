@@ -21,11 +21,22 @@ public class GridSizeButton : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI rightText;
 
+    [SerializeField]
+    Image previousSizeImage;
+
+    Color previousSizeImageBaseColour;
+
     Color greenColour = new Color(0.2313726f, 0.3607843f, 0, 1);
     Color standardColour;
     // Start is called before the first frame update
     void Awake()
     {
+        previousSizeImageBaseColour = previousSizeImage.color;
+
+        if (PlayerPrefs.HasKey("GridSizeToggle") == true)
+        {
+            CheckIfSizeIsTrue();
+        }
         if (PlayerPrefs.HasKey("GridToggle") == true)
         {
             if (PlayerPrefs.GetString("GridToggle") == "True")
@@ -63,6 +74,17 @@ public class GridSizeButton : MonoBehaviour
     void Update()
     {
            
+    }
+    public void CheckIfSizeIsTrue() 
+    {
+        if (PlayerPrefs.GetString("GridSizeToggle") == "True") 
+        {
+            previousSizeImage.color = greenColour;
+        }
+        else
+        {
+            previousSizeImage.color = previousSizeImageBaseColour;
+        }
     }
     public void OnClick()
     {

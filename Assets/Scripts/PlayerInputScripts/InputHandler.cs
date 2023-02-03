@@ -24,14 +24,16 @@ public class InputHandler : MonoBehaviour
 
     [SerializeField]
     GridSizeButton gridSizeButton;
+    PreviousRun previousRun;
 
     SpawnSwitches spawnSwitches;
     // Start is called before the first frame update
     void Start()
     {
+        previousRun = GetComponent<PreviousRun>();
         spawnSwitches = GetComponent<SpawnSwitches>();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -54,8 +56,15 @@ public class InputHandler : MonoBehaviour
             timeCount.StartCounting();
         }
     }
+    
     public void GameReset()
     {
+        gridSizeButton.CheckIfSizeIsTrue();
+        previousRun.SaveGridSizeToggle(gridSizeButton.getsetToggle);
+        previousRun.SavePercentage(spawnSwitches.PercentageLit());
+        previousRun.WritePreviousPercentageLit(spawnSwitches.PercentageLit());
+        previousRun.WriteName();        
+        previousRun.SavePreviousRun();
         victoryCount.GetSetVictoryReset = false;
         spawnSwitches.ToggleAllSwitchesToOff();
         spawnSwitches.SwitchesRandomOn();
@@ -63,6 +72,7 @@ public class InputHandler : MonoBehaviour
         timeCount.ResetCount();
         spawnSwitches.DestroyAllSwitches();
         spawnSwitches.Spawn();
+        spawnSwitches.ResetVictoryCelebrationPlayed();
 
         if (gridSizeButton.getsetToggle == true)
         {

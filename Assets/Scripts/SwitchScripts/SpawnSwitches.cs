@@ -32,18 +32,26 @@ public class SpawnSwitches : MonoBehaviour
     GameObject switchParent;
 
     AudioPlayer player;
+
+    bool victoryCelebrationPlayed = false;
+
+    float updateTimer = 1f;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<AudioPlayer>();
         Spawn();
-        PercentageLit();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        updateTimer -= Time.deltaTime;
+        if (updateTimer <= 0)
+        {
+            WritePercentageLit();
+            updateTimer = 600;
+        }
     }
 
     public void WhichSwitchClicked(Vector2 switchPos)
@@ -80,7 +88,7 @@ public class SpawnSwitches : MonoBehaviour
     void ToggleSwitch(int x, int y)
     {
         switches[x, y].GetComponent<Switch>().ToggleSwitch();
-        PercentageLit();
+        WritePercentageLit();
     }
     void CheckIfVictorious()
     {
@@ -89,9 +97,13 @@ public class SpawnSwitches : MonoBehaviour
         if (amountOn == switches.GetLength(0) * switches.GetLength(1))
         {
             timeCount.StopCounting();
-            player.PlayAudio();
             victoryCount.UpdateVictories();
-            VictoryCelebration();
+            if (victoryCelebrationPlayed == false)
+            {
+                player.PlayAudio();
+                VictoryCelebration();    
+                victoryCelebrationPlayed = true;
+            }
             resetNeededText.SetActive(true);
         }
     }
@@ -143,6 +155,7 @@ public class SpawnSwitches : MonoBehaviour
                 switches[x, y].GetComponentInChildren<TMP_Text>().text = x + ", " + y;
             }
         }
+        WritePercentageLit();
     }
     public void DestroyAllSwitches()
     {
@@ -172,12 +185,15 @@ public class SpawnSwitches : MonoBehaviour
             }
         }
     }
-    public void PercentageLit()
+    public string PercentageLit()
     {
         float amountOn = CalculateAmountOn();
         
-        //percentageComplete.localScale = new Vector3(amountOn, amountOn, amountOn);
-        percentageCompleteText.text = System.Math.Round(amountOn / (gridSize.getSize * gridSize.getSize) * 100, 2) + "%";
+        return System.Math.Round(amountOn / (gridSize.getSize * gridSize.getSize) * 100, 2) + "%";
+    }
+    public void WritePercentageLit()
+    {
+        percentageCompleteText.text = PercentageLit();
     }
 
     public int CalculateAmountOn()
@@ -194,5 +210,9 @@ public class SpawnSwitches : MonoBehaviour
             }
         }
         return amountOn;
+    }
+    public void ResetVictoryCelebrationPlayed()
+    {
+        victoryCelebrationPlayed = false;
     }
 }
