@@ -17,10 +17,19 @@ public class SpawnSwitches : MonoBehaviour
     VictoryCount victoryCount;
 
     [SerializeField]
+    Transform percentageComplete;
+    [SerializeField]
+    TextMeshProUGUI percentageCompleteText;
+
+    [SerializeField]
     GameObject resetNeededText;
 
     [SerializeField]
     GridSizeButton gridSize;
+
+
+    [SerializeField]
+    GameObject switchParent;
 
     AudioPlayer player;
     // Start is called before the first frame update
@@ -28,6 +37,7 @@ public class SpawnSwitches : MonoBehaviour
     {
         player = GetComponent<AudioPlayer>();
         Spawn();
+        PercentageLit();
     }
 
     // Update is called once per frame
@@ -70,20 +80,11 @@ public class SpawnSwitches : MonoBehaviour
     void ToggleSwitch(int x, int y)
     {
         switches[x, y].GetComponent<Switch>().ToggleSwitch();
+        PercentageLit();
     }
     void CheckIfVictorious()
     {
-        int amountOn = 0;
-        for (int x = 0; x < switches.GetLength(0); x++)
-        {
-            for (int y = 0; y < switches.GetLength(1); y++)
-            {
-                if (switches[x, y].GetComponent<Switch>().IsOn == true)
-                {
-                    amountOn++;
-                }
-            }
-        }
+        int amountOn = CalculateAmountOn();
 
         if (amountOn == switches.GetLength(0) * switches.GetLength(1))
         {
@@ -93,7 +94,6 @@ public class SpawnSwitches : MonoBehaviour
             VictoryCelebration();
             resetNeededText.SetActive(true);
         }
-
     }
     public void VictoryCelebration()
     {
@@ -139,7 +139,7 @@ public class SpawnSwitches : MonoBehaviour
         {
             for (int x = 0; x < switches.GetLength(1); x++)
             {
-                switches[x, y] = Instantiate(switchObject, new Vector3(x, -y), Quaternion.identity);
+                switches[x, y] = Instantiate(switchObject, new Vector3(x, -y), Quaternion.identity, switchParent.transform);
                 switches[x, y].GetComponentInChildren<TMP_Text>().text = x + ", " + y;
             }
         }
@@ -171,5 +171,28 @@ public class SpawnSwitches : MonoBehaviour
                 }
             }
         }
+    }
+    public void PercentageLit()
+    {
+        float amountOn = CalculateAmountOn();
+        
+        //percentageComplete.localScale = new Vector3(amountOn, amountOn, amountOn);
+        percentageCompleteText.text = System.Math.Round(amountOn / (gridSize.getSize * gridSize.getSize) * 100, 2) + "%";
+    }
+
+    public int CalculateAmountOn()
+    {
+        int amountOn = 0;
+        for (int x = 0; x < switches.GetLength(0); x++)
+        {
+            for (int y = 0; y < switches.GetLength(1); y++)
+            {
+                if (switches[x, y].GetComponent<Switch>().IsOn == true)
+                {
+                    amountOn++;
+                }
+            }
+        }
+        return amountOn;
     }
 }

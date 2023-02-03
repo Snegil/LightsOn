@@ -8,7 +8,7 @@ public class GridSizeButton : MonoBehaviour
 {
     // FALSE == 5x5; TRUE == 9x9
     [SerializeField]
-    bool toggle = false;
+    bool toggle;
     int size = 5;
     Image image;
 
@@ -24,10 +24,25 @@ public class GridSizeButton : MonoBehaviour
     Color greenColour = new Color(0.2313726f, 0.3607843f, 0, 1);
     Color standardColour;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (PlayerPrefs.HasKey("GridToggle") == true)
+        {
+            if (PlayerPrefs.GetString("GridToggle") == "True")
+            {
+                toggle = true;
+                Debug.Log("GRIDTOGGLE TRUE");
+            }
+            else
+            {
+                toggle = false;
+                Debug.Log("GRIDTOGGLE FALSE");
+            }
+        }
+
         image = GetComponent<Image>();
         standardColour = image.color;
+
         if (toggle == false)
         {
             image.sprite = leftLeaning;
@@ -70,5 +85,10 @@ public class GridSizeButton : MonoBehaviour
     public int getSize
     {
         get { return size; }
+    }
+    public bool getsetToggle
+    {
+        get { return toggle; }
+        set { toggle = value; }
     }
 }

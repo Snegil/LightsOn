@@ -22,6 +22,9 @@ public class InputHandler : MonoBehaviour
     [SerializeField]
     VictoryCount victoryCount;
 
+    [SerializeField]
+    GridSizeButton gridSizeButton;
+
     SpawnSwitches spawnSwitches;
     // Start is called before the first frame update
     void Start()
@@ -60,6 +63,17 @@ public class InputHandler : MonoBehaviour
         timeCount.ResetCount();
         spawnSwitches.DestroyAllSwitches();
         spawnSwitches.Spawn();
+
+        if (gridSizeButton.getsetToggle == true)
+        {
+            PlayerPrefs.SetString("GridToggle", "True");
+        }
+        else
+        {
+            PlayerPrefs.SetString("GridToggle", "False");
+        }
+        Debug.Log(PlayerPrefs.GetString("GridToggle"));
+
     }
     public void CheatGame(InputAction.CallbackContext context)
     {
